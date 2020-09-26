@@ -1,70 +1,116 @@
-import React from "react";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import {
+  removeFromCart,
+  updateAmount,
+} from '../../redux/reducers/cart/actions';
 
 import {
   MdRemoveCircleOutline,
   MdAddCircleOutline,
   MdDelete,
-} from "react-icons/md";
+} from 'react-icons/md';
 
-import { Container, ProductTable, Total } from "./styles";
+import { Container, ProductTable, Total, Loading } from './styles';
+
+import { formatPrice } from '../../util/format';
 
 function Cart() {
+  const dispatch = useDispatch();
+
+  const { products, total } = useSelector((state) => ({
+    products: state.cart.map((product) => ({
+      ...product,
+      subtotal: formatPrice(product.price * product.amount),
+    })),
+    total: formatPrice(
+      state.cart.reduce((total, product) => {
+        return total + product.price * product.amount;
+      }, 0)
+    ),
+  }));
+
+  const increment = (id, amount) => {
+    dispatch(updateAmount(id, ++amount));
+  };
+
+  const decrement = (id, amount) => {
+    dispatch(updateAmount(id, --amount));
+  };
+
   return (
     <Container>
-      <ProductTable>
-        <thead>
-          <tr>
-            <th />
-            <th>PRODUCT</th>
-            <th>QUANTITY</th>
-            <th>VALUE</th>
-            <th />
-          </tr>
-        </thead>
+      {products.length ? (
+        <>
+          <ProductTable>
+            <thead>
+              <tr>
+                <th />
+                <th>PRODUCT</th>
+                <th>QUANTITY</th>
+                <th>SUBTOTAL</th>
+                <th />
+              </tr>
+            </thead>
 
-        <tbody>
-          <tr>
-            <td>
-              <img
-                src="https://static.netshoes.com.br/produtos/tenis-olympikus-globe-se-814-masculino/26/D22-3837-026/D22-3837-026_detalhe1.jpg?ts=1595354797?ims=280x280"
-                alt="Shoe"
-              />
-            </td>
-            <td>
-              <strong>Shoe very cool</strong>
-              <span>R$129,90</span>
-            </td>
-            <td>
-              <div>
-                <button type="button">
-                  <MdRemoveCircleOutline size={20} color="#7159c1" />
-                </button>
-                <input type="number" readOnly value={2} />
-                <button type="button">
-                  <MdAddCircleOutline size={20} color="#7159c1" />
-                </button>
-              </div>
-            </td>
-            <td>
-              <strong>R$258,80</strong>
-            </td>
-            <td>
-              <button type="button">
-                <MdDelete size={20} color="#7159c1" />
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </ProductTable>
+            <tbody>
+              {products.map(
+                ({ id, title, image, priceFormatted, amount, subtotal }) => (
+                  <tr key={id}>
+                    <td>
+                      <img src={image} alt={title} />
+                    </td>
+                    <td>
+                      <strong>{title}</strong>
+                      <span>{priceFormatted}</span>
+                    </td>
+                    <td>
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => decrement(id, amount)}
+                        >
+                          <MdRemoveCircleOutline size={20} color="#7159c1" />
+                        </button>
+                        <input type="number" readOnly value={amount} />
+                        <button
+                          type="button"
+                          onClick={() => increment(id, amount)}
+                        >
+                          <MdAddCircleOutline size={20} color="#7159c1" />
+                        </button>
+                      </div>
+                    </td>
+                    <td>
+                      <strong>{subtotal}</strong>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        onClick={() => dispatch(removeFromCart(id))}
+                      >
+                        <MdDelete size={20} color="#7159c1" />
+                      </button>
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </ProductTable>
 
-      <footer>
-        <button type="button">BUY</button>
+          <footer>
+            <button type="button">BUY</button>
 
-        <Total>
-          <span>TOTAL</span>
-          <strong>R$129,00</strong>
-        </Total>
-      </footer>
+            <Total>
+              <span>TOTAL</span>
+              <strong>{total}</strong>
+            </Total>
+          </footer>
+        </>
+      ) : (
+        <Loading>EMPTY</Loading>
+      )}
     </Container>
   );
 }

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { darken } from "polished";
+import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   width: 100;
@@ -38,16 +38,18 @@ export const ProductList = styled.ul`
       line-height: 20px;
     }
 
-    span {
+    > span {
       font-size: 16px;
       font-weight: 700;
+      margin-top: 12px;
+      margin-bottom: 24px;
     }
 
     button {
       display: flex;
       align-items: center;
 
-      margin-top: 20px;
+      margin-top: auto;
       cursor: pointer;
 
       color: #fff;
@@ -55,10 +57,12 @@ export const ProductList = styled.ul`
       border-radius: 4px;
       background: #7159c1;
 
-      tramsition: background 0.2s;
+      overflow: hidden;
+
+      transition: background 0.2s;
 
       &:hover {
-        background: ${darken(0.03, "#7159c1")};
+        background: ${darken(0.03, '#7159c1')};
       }
 
       div {
@@ -66,6 +70,10 @@ export const ProductList = styled.ul`
         align-items: center;
         padding: 12px;
         background: rgba(0, 0, 0, 0.4);
+
+        svg {
+          margin-right: 6px;
+        }
       }
 
       span {
@@ -74,4 +82,13 @@ export const ProductList = styled.ul`
       }
     }
   }
+`;
+
+export const Loading = styled.span`
+  position: absolute;
+  width: 100vw;
+
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
 `;

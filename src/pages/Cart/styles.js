@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { darken } from "polished";
+import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
@@ -26,7 +26,7 @@ export const Container = styled.div`
       transition: background 0.2s;
 
       &:hover {
-        background: ${darken(0.03, "#7159c1")};
+        background: ${darken(0.03, '#7159c1')};
       }
     }
   }
@@ -101,4 +101,12 @@ export const Total = styled.div`
     font-size: 28px;
     margin-left: 8px;
   }
+`;
+
+export const Loading = styled.div`
+  width: 100%;
+
+  font-size: 32px;
+  font-weight: 900;
+  text-align: center;
 `;
