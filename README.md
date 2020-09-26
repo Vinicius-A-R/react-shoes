@@ -14,11 +14,11 @@ React JS Web Application using React Hooks and Redux.
 
 ## Homepage
 
-![app e-commerce](https://github.com/Vinicius-A-R/react-shoes/blob/master/public/home.png?raw=true)
+![app e-commerce](https://github.com/Vinicius-A-R/react-shoes/blob/master/public/images/home.png?raw=true)
 
 ## Cart page
 
-![app e-commerce](https://github.com/Vinicius-A-R/react-shoes/blob/master/public/cart.png?raw=true)
+![app e-commerce](https://github.com/Vinicius-A-R/react-shoes/blob/master/public/images/cart.png?raw=true)
 
 
 ## How to start
